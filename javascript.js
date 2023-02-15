@@ -4,6 +4,7 @@ let add = (a, b) => a + b;
 let subtract = (a, b) => a - b;
 let multiply = (a, b) => a * b;
 let divide = (a, b) => a / b;
+let mod = (a, b) => a % b;
 
 function operate(operator, num1, num2) {
     if (operator === "+") {
@@ -14,24 +15,15 @@ function operate(operator, num1, num2) {
         return multiply(num1, num2);
     } else if (operator === "/") {
         return divide(num1, num2);
-    } else {
-        console.error("Operator Unknown");
+    } else if (operator === "%") {
+        return mod(num1, num2)
+    } else if (operator === "=") {
+        return array[0];
     }
 }
 
 // Display Numbers
 
-const zero = document.querySelector("#zero");
-const one = document.querySelector("#one");
-const two = document.querySelector("#two");
-const three = document.querySelector("#three");
-const four = document.querySelector("#four");
-const five = document.querySelector("#five");
-const six = document.querySelector("#six");
-const seven = document.querySelector("#seven");
-const eight = document.querySelector("#eight");
-const nine = document.querySelector("#nine");
-const dot = document.querySelector("#dot");
 const display = document.querySelector(".display")
 
 const currentNumber = []
@@ -55,7 +47,10 @@ backspace.addEventListener("click", () => {
 })
 
 clear.addEventListener("click", () => {
-    clearDisplay()
+    clearDisplay();
+    while (array.length > 0) {
+        array.pop()
+    }
 })
 
 function clearDisplay() {
@@ -67,22 +62,22 @@ function clearDisplay() {
 
 // Operators
 
-const sum = document.querySelector("#sum");
-const sub = document.querySelector("#subtract");
-const mult = document.querySelector("#multiply");
-const div = document.querySelector("#divide");
-const mod = document.querySelector("#module")
-const equal = document.querySelector(".equalButton")
+const operators = document.querySelectorAll(".operator");
 
-const operators = document.querySelectorAll(".operator")
-operators.forEach((item) => {
-    item.addEventListener("click", () => {
-        var num1 = Number(display.textContent);
+const array = [];
+
+operators.forEach((operator) => {
+    operator.addEventListener("click", () => {
+        array.push(Number(display.textContent))
         clearDisplay();
-        equal.addEventListener("click", () => {
-            var num2 = Number(display.textContent);
-            display.textContent = operate(item.innerHTML, num1, num2);
-        })
-        
+        array.push(operator.innerHTML)
+        if (array.length >= 3) {
+            let newNumber = operate(array[1], array[0], array[2])
+            display.textContent = newNumber;
+            for(let i = 0; i < 3; i++) {
+                array.shift()
+            }
+            array.unshift(newNumber);
+        }
     })
 })
