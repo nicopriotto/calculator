@@ -18,3 +18,4 @@ function operate(operator, num1, num2) {
         console.error("Operator Unknown");
     }
 }
+
