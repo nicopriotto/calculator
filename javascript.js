@@ -14,6 +14,9 @@ function operate(operator, num1, num2) {
     } else if (operator === "*") {
         return multiply(num1, num2);
     } else if (operator === "/") {
+        if (num2 == 0) {
+            return "NO MAN!"
+        }
         return divide(num1, num2);
     } else if (operator === "%") {
         return mod(num1, num2)
@@ -30,11 +33,28 @@ const currentNumber = []
 
 const numbers = document.querySelectorAll(".number")
 numbers.forEach((item) => {
-    item.addEventListener("click", () => {
+    item.addEventListener("click", function handleNumberClick() {
         currentNumber.push(item.innerHTML);
-        display.textContent = currentNumber.join('');
+        let displayNumber = currentNumber.join('');
+        display.textContent = convertToExponential(displayNumber);
+        if (currentNumber.length >= 12) {
+            numbers.forEach((item) => {
+              item.removeEventListener("click", handleNumberClick);
+            });
+        }
     })
 })
+
+function convertToExponential(numStr) {
+    const num = parseFloat(numStr);
+    if (num === 0) {
+        return 0
+    } else if (Math.abs(num) >= 1e10 || Math.abs(num) < 1e-10) {
+      return num.toExponential(2); // use 2 decimal places in the exponent
+    } else {
+      return num.toString();
+    }
+}
 
 // Clear and Backspace
 
