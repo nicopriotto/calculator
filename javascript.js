@@ -91,6 +91,7 @@ operators.forEach((operator) => {
         array.push(Number(display.textContent))
         clearDisplay();
         array.push(operator.innerHTML)
+        display.textContent = array[0];
         if (array.length >= 3) {
             let newNumber = operate(array[1], array[0], array[2])
             display.textContent = newNumber;
